@@ -1,0 +1,42 @@
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
+import io.restassured.response.Response;
+
+public class DemoBlazeApiTest {
+
+    // Base URL of the API
+    private static final String BASE_URL = "https://www.demoblaze.com";
+
+    // Function to perform user registration (signup)
+    public static Response registerUser(String username, String password) {
+        String endpoint = "/signup";
+        String url = BASE_URL + endpoint;
+
+        return RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body("{\"username\": \"" + username + "\", \"password\": \"" + password + "\"}")
+                .post(url);
+    }
+
+    // Function to perform user login
+    public static Response loginUser(String username, String password) {
+        String endpoint = "/login";
+        String url = BASE_URL + endpoint;
+
+        return RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body("{\"username\": \"" + username + "\", \"password\": \"" + password + "\"}")
+                .post(url);
+    }
+
+    // Example usage
+    public static void main(String[] args) {
+        // Test registration (signup)
+        Response signupResponse = registerUser("testuser", "testpassword");
+        System.out.println("Signup Response: " + signupResponse.statusCode() + "\n" + signupResponse.asString());
+
+        // Test login
+        Response loginResponse = loginUser("testuser", "testpassword");
+        System.out.println("Login Response: " + loginResponse.statusCode() + "\n" + loginResponse.asString());
+    }
+}
